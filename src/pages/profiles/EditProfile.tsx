@@ -17,8 +17,8 @@ import {
   getCurrentUser, 
   type GameProfile, 
   type SettingsTemplate 
-} from '../lib/storage';
-import { SUPPORTED_GAMES } from '../lib/gameData';
+} from '../../lib/storage';
+import { SUPPORTED_GAMES } from '../../lib/gameData';
 
 export const EditProfile: React.FC = () => {
   const { id } = useParams<{ id: string }>();

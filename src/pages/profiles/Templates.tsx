@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Layers, Plus, Trash2, CheckCircle } from 'lucide-react';
-import { getTemplates, saveTemplate, deleteTemplate, type SettingsTemplate } from '../lib/storage';
-import { SUPPORTED_GAMES } from '../lib/gameData';
+import { getTemplates, saveTemplate, deleteTemplate, type SettingsTemplate } from '../../lib/storage';
+import { SUPPORTED_GAMES } from '../../lib/gameData';
 
 export const Templates: React.FC = () => {
   const [templates, setTemplates] = useState<SettingsTemplate[]>([]);

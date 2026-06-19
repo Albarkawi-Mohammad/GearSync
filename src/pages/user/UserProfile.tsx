@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { User as UserIcon, Save, LogOut } from 'lucide-react';
-import { getCurrentUser, updateCurrentUser, getProfiles, type User } from '../lib/storage';
+import { getCurrentUser, updateCurrentUser, getProfiles, type User } from '../../lib/storage';
 
 export const UserProfile: React.FC = () => {
   const [currentUser, setCurrentUser] = useState<User>(getCurrentUser());

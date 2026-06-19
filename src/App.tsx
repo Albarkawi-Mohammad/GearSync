@@ -3,16 +3,16 @@ import { AppLayout } from './components/layout/AppLayout';
 import { ErrorBoundary } from './components/ErrorBoundary';
 
 // Pages
-import { Dashboard } from './pages/Dashboard';
-import { Profiles } from './pages/Profiles';
-import { EditProfile } from './pages/EditProfile';
-import { ProfileView } from './pages/ProfileView';
-import { CompareProfiles } from './pages/CompareProfiles';
-import { SensitivityCalculator } from './pages/SensitivityCalculator';
-import { Templates } from './pages/Templates';
-import { Community } from './pages/Community';
-import { UserProfile } from './pages/UserProfile';
-import { AdminPanel } from './pages/AdminPanel';
+import { Dashboard } from './pages/dashboard/Dashboard';
+import { Profiles } from './pages/profiles/Profiles';
+import { EditProfile } from './pages/profiles/EditProfile';
+import { ProfileView } from './pages/profiles/ProfileView';
+import { CompareProfiles } from './pages/compare/CompareProfiles';
+import { SensitivityCalculator } from './pages/calculators/SensitivityCalculator';
+import { Templates } from './pages/profiles/Templates';
+import { Community } from './pages/community/Community';
+import { UserProfile } from './pages/user/UserProfile';
+import { AdminPanel } from './pages/admin/AdminPanel';
 
 function App() {
   return (

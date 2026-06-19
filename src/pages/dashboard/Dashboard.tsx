@@ -24,8 +24,8 @@ import {
   getCurrentUser, 
   type GameProfile, 
   togglePinProfile 
-} from '../lib/storage';
-import { SUPPORTED_GAMES } from '../lib/gameData';
+} from '../../lib/storage';
+import { SUPPORTED_GAMES } from '../../lib/gameData';
 
 export const Dashboard: React.FC = () => {
   const [profiles, setProfiles] = useState<GameProfile[]>([]);

@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { GitCompare, AlertTriangle } from 'lucide-react';
-import { getProfiles, type GameProfile } from '../lib/storage';
-import { SUPPORTED_GAMES } from '../lib/gameData';
+import { getProfiles, type GameProfile } from '../../lib/storage';
+import { SUPPORTED_GAMES } from '../../lib/gameData';
 import { 
   ResponsiveContainer, 
   BarChart, 

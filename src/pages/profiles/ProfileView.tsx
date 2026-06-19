@@ -17,9 +17,9 @@ import {
   addHistoryEntry, 
   type GameProfile, 
   type ProfileHistory 
-} from '../lib/storage';
-import { SUPPORTED_GAMES } from '../lib/gameData';
-import { ChecklistMode } from '../components/profiles/ChecklistMode';
+} from '../../lib/storage';
+import { SUPPORTED_GAMES } from '../../lib/gameData';
+import { ChecklistMode } from '../../components/profiles/ChecklistMode';
 
 export const ProfileView: React.FC = () => {
   const { id } = useParams<{ id: string }>();

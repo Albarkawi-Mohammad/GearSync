@@ -7,8 +7,8 @@ import {
   copyProfile, 
   type GameProfile, 
   type User 
-} from '../lib/storage';
-import { SUPPORTED_GAMES } from '../lib/gameData';
+} from '../../lib/storage';
+import { SUPPORTED_GAMES } from '../../lib/gameData';
 
 export const Community: React.FC = () => {
   const [profiles, setProfiles] = useState<GameProfile[]>([]);

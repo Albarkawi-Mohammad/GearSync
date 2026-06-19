@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import { Search, Plus, Pin, Trash2, Sliders, Upload, Download } from 'lucide-react';
-import { getProfiles, deleteProfile, togglePinProfile, saveProfile, type GameProfile } from '../lib/storage';
-import { SUPPORTED_GAMES } from '../lib/gameData';
+import { getProfiles, deleteProfile, togglePinProfile, saveProfile, type GameProfile } from '../../lib/storage';
+import { SUPPORTED_GAMES } from '../../lib/gameData';
 
 export const Profiles: React.FC = () => {
   const [profiles, setProfiles] = useState<GameProfile[]>([]);

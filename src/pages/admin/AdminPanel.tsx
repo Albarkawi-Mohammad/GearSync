@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Shield, Send, AlertTriangle, Bell } from 'lucide-react';
-import { getAnnouncements, addAnnouncement, type GameAnnouncement } from '../lib/storage';
-import { SUPPORTED_GAMES } from '../lib/gameData';
+import { getAnnouncements, addAnnouncement, type GameAnnouncement } from '../../lib/storage';
+import { SUPPORTED_GAMES } from '../../lib/gameData';
 
 export const AdminPanel: React.FC = () => {
   const [announcements, setAnnouncements] = useState<GameAnnouncement[]>([]);

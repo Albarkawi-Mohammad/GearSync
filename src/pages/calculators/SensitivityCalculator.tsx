@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { Calculator, ArrowRight, Eye } from 'lucide-react';
-import { SUPPORTED_GAMES, SENSITIVITY_FACTORS } from '../lib/gameData';
+import { SUPPORTED_GAMES, SENSITIVITY_FACTORS } from '../../lib/gameData';
 
 export const SensitivityCalculator: React.FC = () => {
   const [calcMode, setCalcMode] = useState<'sens_to_sens' | 'distance_to_sens'>('sens_to_sens');

@@ -8,7 +8,8 @@ import {
   Clock, 
   FileDown,
   Lock,
-  Globe
+  Globe,
+  Terminal
 } from 'lucide-react';
 import { 
   getProfiles, 
@@ -20,6 +21,7 @@ import {
 } from '../../lib/storage';
 import { SUPPORTED_GAMES } from '../../lib/gameData';
 import { ChecklistMode } from '../../components/profiles/ChecklistMode';
+import { compileGameConfig } from '../../lib/configCompiler';
 
 export const ProfileView: React.FC = () => {
   const { id } = useParams<{ id: string }>();
@@ -90,6 +92,24 @@ export const ProfileView: React.FC = () => {
   // Export PDF via window print
   const handlePrint = () => {
     window.print();
+  };
+
+  // Export game specific config file
+  const handleDownloadConfig = () => {
+    if (!profile) return;
+    try {
+      const { filename, content } = compileGameConfig(profile);
+      const dataStr = "data:text/plain;charset=utf-8," + encodeURIComponent(content);
+      const downloadAnchor = document.createElement('a');
+      downloadAnchor.setAttribute("href", dataStr);
+      downloadAnchor.setAttribute("download", filename);
+      document.body.appendChild(downloadAnchor);
+      downloadAnchor.click();
+      downloadAnchor.remove();
+    } catch (err) {
+      alert('Failed to generate local game config file.');
+      console.error(err);
+    }
   };
 
   // Filter settings fields based on active tab category and platform limits
@@ -167,6 +187,14 @@ export const ProfileView: React.FC = () => {
             className="px-4 py-2.5 bg-slate-800 hover:bg-slate-750 border border-slate-700/60 text-gray-200 text-xs font-bold font-mono uppercase rounded-lg transition-colors flex items-center gap-1.5"
           >
             <FileDown size={14} /> Export Config (PDF)
+          </button>
+
+          <button
+            onClick={handleDownloadConfig}
+            className="px-4 py-2.5 bg-brand-primary/20 hover:bg-brand-primary/35 border border-brand-primary/60 text-brand-cyan text-xs font-bold font-mono uppercase rounded-lg transition-all flex items-center gap-1.5"
+            title="Download raw game config script"
+          >
+            <Terminal size={14} /> Download Config (.cfg)
           </button>
 
           {profile.userId === 'current_user' && (

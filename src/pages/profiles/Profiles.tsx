@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
-import { Search, Plus, Pin, Trash2, Sliders, Upload, Download } from 'lucide-react';
+import { Search, Plus, Pin, Trash2, Sliders, Upload, Download, Terminal } from 'lucide-react';
 import { getProfiles, deleteProfile, togglePinProfile, saveProfile, type GameProfile } from '../../lib/storage';
 import { SUPPORTED_GAMES } from '../../lib/gameData';
+import { parseGameConfig } from '../../lib/configCompiler';
 
 export const Profiles: React.FC = () => {
   const [profiles, setProfiles] = useState<GameProfile[]>([]);
@@ -100,6 +101,92 @@ export const Profiles: React.FC = () => {
     };
   };
 
+  const handleImportGameConfig = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const files = e.target.files;
+    if (!files || files.length === 0) return;
+    
+    const file = files[0];
+    const fileName = file.name.toLowerCase();
+    
+    // Attempt to auto-infer game
+    let inferredGameId = '';
+    if (fileName.includes('apex')) inferredGameId = 'apex';
+    else if (fileName.includes('cs2') || fileName.includes('csgo') || fileName.includes('autoexec')) inferredGameId = 'cs2';
+    else if (fileName.includes('bo6') || fileName.includes('cod')) inferredGameId = 'bo6';
+    else if (fileName.includes('fortnite') || fileName.endsWith('.ini')) inferredGameId = 'fortnite';
+
+    if (!inferredGameId) {
+      const selection = prompt(
+        "Could not automatically infer the game. Please type the game identifier:\n" +
+        "Options: bo6, fortnite, apex, cs2, valorant"
+      );
+      if (!selection) {
+        e.target.value = '';
+        return;
+      }
+      const cleaned = selection.trim().toLowerCase();
+      if (['bo6', 'fortnite', 'apex', 'cs2', 'valorant'].includes(cleaned)) {
+        inferredGameId = cleaned;
+      } else {
+        alert("Invalid game ID. Import cancelled.");
+        e.target.value = '';
+        return;
+      }
+    }
+
+    const fileReader = new FileReader();
+    fileReader.readAsText(file, "UTF-8");
+    fileReader.onload = (event) => {
+      try {
+        const text = event.target?.result as string;
+        const parsedSettings = parseGameConfig(text, inferredGameId);
+        
+        if (Object.keys(parsedSettings).length === 0) {
+          alert("No recognized sensitivity or keybind parameters were parsed from this file.");
+          e.target.value = '';
+          return;
+        }
+
+        // Fetch defaults for target game to merge in
+        const gameObj = SUPPORTED_GAMES.find(g => g.id === inferredGameId);
+        const mergedSettings: Record<string, string | number | boolean> = {};
+        if (gameObj) {
+          gameObj.fields.forEach(f => {
+            mergedSettings[f.id] = f.default;
+          });
+        }
+
+        // Apply parsed overrides
+        Object.assign(mergedSettings, parsedSettings);
+
+        const newProfile: GameProfile = {
+          id: 'parsed_' + Math.random().toString(36).substring(2, 9),
+          name: `Imported ${file.name}`,
+          gameId: inferredGameId,
+          platform: 'pc',
+          inputType: 'keyboard_mouse',
+          tags: ['imported', 'cfg'],
+          isPinned: false,
+          isPublic: false,
+          userId: 'current_user',
+          username: 'AvvA',
+          isPro: false,
+          lastUsed: new Date().toISOString(),
+          copiesCount: 0,
+          settings: mergedSettings
+        };
+
+        saveProfile(newProfile);
+        alert(`Successfully parsed & imported config! Added "${newProfile.name}" to your locker.`);
+        loadProfiles();
+      } catch (err) {
+        alert("Failed to parse game configuration file.");
+        console.error(err);
+      }
+      e.target.value = '';
+    };
+  };
+
   const filteredProfiles = profiles.filter(p => {
     const matchesSearch = p.name.toLowerCase().includes(search.toLowerCase()) ||
                           (p.tags || []).some(t => t.toLowerCase().includes(search.toLowerCase()));
@@ -135,6 +222,21 @@ export const Profiles: React.FC = () => {
             title="Import configuration JSON"
           >
             <Upload size={14} /> Import Locker
+          </button>
+
+          <input
+            type="file"
+            id="import-game-config-file"
+            accept=".cfg,.ini,.txt"
+            onChange={handleImportGameConfig}
+            className="hidden"
+          />
+          <button
+            onClick={() => document.getElementById('import-game-config-file')?.click()}
+            className="px-4 py-2.5 bg-brand-primary/20 hover:bg-brand-primary/35 border border-brand-primary/60 text-brand-cyan text-xs font-bold font-mono uppercase rounded-lg transition-all flex items-center gap-1.5"
+            title="Import raw game config file (.cfg / .ini)"
+          >
+            <Terminal size={14} /> Import Config (.cfg)
           </button>
           
           <button

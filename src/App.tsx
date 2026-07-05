@@ -1,18 +1,17 @@
 import { HashRouter as Router, Routes, Route, Navigate } from 'react-router-dom';
-import { AppLayout } from './components/layout/AppLayout';
-import { ErrorBoundary } from './components/ErrorBoundary';
-
-// Pages
-import { Dashboard } from './pages/dashboard/Dashboard';
-import { Profiles } from './pages/profiles/Profiles';
-import { EditProfile } from './pages/profiles/EditProfile';
-import { ProfileView } from './pages/profiles/ProfileView';
-import { CompareProfiles } from './pages/compare/CompareProfiles';
-import { SensitivityCalculator } from './pages/calculators/SensitivityCalculator';
-import { Templates } from './pages/profiles/Templates';
-import { Community } from './pages/community/Community';
-import { UserProfile } from './pages/user/UserProfile';
-import { AdminPanel } from './pages/admin/AdminPanel';
+import { AppLayout, ErrorBoundary } from './components';
+import {
+  AdminPanel,
+  Community,
+  CompareProfiles,
+  Dashboard,
+  EditProfile,
+  ProfileView,
+  Profiles,
+  SensitivityCalculator,
+  Templates,
+  UserProfile,
+} from './pages';
 
 function App() {
   return (

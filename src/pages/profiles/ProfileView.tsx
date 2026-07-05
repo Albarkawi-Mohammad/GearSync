@@ -20,7 +20,7 @@ import {
   type ProfileHistory 
 } from '../../lib/storage';
 import { SUPPORTED_GAMES } from '../../lib/gameData';
-import { ChecklistMode } from '../../components/profiles/ChecklistMode';
+import { ChecklistMode } from '../../components/profiles';
 import { compileGameConfig } from '../../lib/configCompiler';
 
 export const ProfileView: React.FC = () => {

@@ -13,7 +13,15 @@ export default defineConfig({
   },
   optimizeDeps: {
     noDiscovery: true,
-    include: []
+    include: [
+      'react',
+      'react-dom',
+      'react-dom/client',
+      'react/jsx-runtime',
+      'react/jsx-dev-runtime',
+      'react-is',
+      'canvas-confetti'
+    ]
   },
   plugins: [
     react()

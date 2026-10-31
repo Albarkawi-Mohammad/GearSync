@@ -1,31 +1,34 @@
-# GearSync (SyncConfig)
+# GearSync
 
-GearSync is a high-performance, responsive web application built with a dark cyberpunk aesthetic. It allows competitive gamers to manage, sync, translate, and copy settings configurations across different hardware platforms (PC, PlayStation, Xbox, Nintendo Switch) for games like *Call of Duty: Black Ops 6*, *Apex Legends*, *Fortnite*, *Valorant*, and *Counter-Strike 2*.
+GearSync is a high-performance gaming settings companion and configuration manager engineered for competitive players and esports enthusiasts. It allows players to manage, calibrate, translate, compare, and synchronize configurations across multiple hardware platforms (PC, PlayStation, Xbox, and Nintendo Switch) for titles including *Call of Duty: Black Ops 6*, *Apex Legends*, *Fortnite*, *Valorant*, and *Counter-Strike 2*.
 
 ---
 
 ## 🚀 Key Features
 
-*   **Locker Profiles Manager**: Pin, tag, edit, search, and delete your configurations.
-*   **Settings Setup Wizard**: Multi-step configuration helper. Pre-fill from pro presets (such as **TenZ**, **Bugha**, **Scump**) or baseline templates.
-*   **Checklist Mode**: Visual checklist wizard designed for mobile browsers, with a tap-to-complete indicator to physically copy settings onto consoles/PCs step-by-step.
-*   **Version History Rollbacks**: Automatic backup snapshots captured before modification to allow immediate recovery logs.
-*   **Sensitivity Conversion**: Converts DPI & sensitivities between game engines, rendering eDPI and physical rotation distance (cm/360°).
-*   **Profile Compare Matrix**: Visual matrix showing differences side-by-side.
-*   **Signal Base (Community Feed)**: Social network feed where players can search, follow players, and copy public setups into their lockers.
-*   **Patch Alert & Admin Console**: Admin dashboard to broadcast mock patch adjustments and verify notifications.
+* **Command Center Dashboard**: Asymmetric bento grid featuring active loadouts, live telemetry pills, ecosystem clone statistics, and game patch announcements.
+* **Locker Profiles Manager**: Organize, pin, search, tag, import, and export configurations with quick filters by platform and game engine.
+* **Progressive Configuration Wizard**: 3-step setup helper with options to start from game defaults, reusable base templates, or verified pro setups (TenZ, Bugha, Scump, etc.).
+* **Companion Checklist Mode**: Mobile-optimized stepper designed to prop up next to your monitor or TV for verifying and applying settings step-by-step.
+* **Automated Version History**: Automatic snapshot backups captured prior to any modifications, with diff inspections and one-click rollback.
+* **Cross-Engine Sensitivity & DPI Translator**: Converts sensitivity, calculates eDPI, and derives physical rotation distance (cm/360° and in/360°) across all supported game engines, including reverse distance-to-sens mode.
+* **Profile Comparison Matrix**: Side-by-side comparison engine highlighting parameter discrepancies and rendering percentage delta shift charts.
+* **Signal Base Community Feed**: Discover, follow creators, preview settings, and clone public community or pro loadouts directly into your personal locker.
+* **Guided Config Compiler**: Compiles profiles into native game configuration formats (`.cfg`, `.ini`, `autoexec`) with one-click download, clipboard copy, and printable PDF reference sheets.
+* **Patch Alert & Admin Console**: Administrative broadcasting hub to dispatch game patch alerts and balance notifications.
 
 ---
 
 ## 🛠️ Technology Stack
 
-*   **Frontend Library**: React 19 (TypeScript)
-*   **Routing**: React Router DOM 7 (`HashRouter` for serverless static compatibility)
-*   **Styling**: Tailwind CSS 3 & PostCSS
-*   **Charts**: Recharts 3
-*   **Icons**: Lucide React
-*   **Visual Effects**: Canvas Confetti
-*   **Database**: Client-side localStorage persistence
+* **Frontend Framework**: React 19 (TypeScript)
+* **Build Tool**: Vite with Progressive Web App support (`vite-plugin-pwa`)
+* **Routing**: React Router DOM 7 (`HashRouter` for zero-configuration static and offline hosting)
+* **Styling & Design System**: Tailwind CSS 3, PostCSS, custom design tokens, and smooth tactile micro-interactions
+* **Data Visualization**: Recharts 3
+* **Icons**: Lucide React
+* **Visual Effects**: Canvas Confetti
+* **Data Layer**: Client-side encrypted `localStorage` persistence with snapshot versioning and Supabase integration
 
 ---
 
@@ -33,50 +36,61 @@ GearSync is a high-performance, responsive web application built with a dark cyb
 
 ```text
 GearSync/
+├── public/                 # PWA icons, manifest, and offline fonts
 ├── src/
-│   ├── assets/              # Icons and images
-│   ├── components/
-│   │   ├── layout/
-│   │   │   └── AppLayout.tsx # Shell container (sidebar, navbar, notifications bell drawer)
-│   │   ├── profiles/
-│   │   │   └── ChecklistMode.tsx # Tap-to-complete mobile overlay stepper
-│   │   └── ErrorBoundary.tsx # Catch-all crash handler
-│   ├── lib/
-│   │   ├── gameData.ts      # Settings schema parameters (BO6, Fortnite, Apex, Valorant, CS2)
-│   │   └── storage.ts       # Database layers and mock configurations seeding
-│   ├── pages/
-│   │   ├── AdminPanel.tsx   # Patch update broadcaster
-│   │   ├── Community.tsx    # Signal discover feed and following timelines
-│   │   ├── CompareProfiles.tsx # Side-by-side parameters discrepancy highlights
-│   │   ├── Dashboard.tsx    # Boot terminal, activity statistics, and patch alerts
-│   │   ├── EditProfile.tsx  # Setup wizard (templates and pro loadouts)
-│   │   ├── Profiles.tsx     # Locker manager dashboard
-│   │   ├── ProfileView.tsx  # Settings breakdown card & rollback log
-│   │   ├── SensitivityCalculator.tsx # Sensitivity DPI translator
-│   │   ├── Templates.tsx    # Quick templates builder
-│   │   └── UserProfile.tsx  # Operator callsign editor
-│   ├── App.css              # Custom styling adjustments
-│   ├── index.css            # Styling core, outfit font-family, and glassmorphism rules
-│   ├── main.tsx             # Entry script
+│   ├── assets/             # Brand graphics and media
+│   ├── components/         # Reusable presentation components
+│   │   ├── layout/         # Application shell (Desktop Rail, Header, Mobile Nav, Command Palette)
+│   │   ├── profiles/       # ChecklistMode companion overlay stepper
+│   │   ├── ui/             # Design system components (GameArtwork, ProfileCard, Toast, Badges)
+│   │   ├── ErrorBoundary.tsx # Catch-all runtime error boundary
+│   │   └── index.ts        # Clean components barrel export
+│   ├── lib/                # Core business logic & storage
+│   │   ├── configCompiler.ts # Raw engine config (.cfg / .ini / autoexec) parser & compiler
+│   │   ├── crypto.ts       # WebCrypto AES-GCM data encryption
+│   │   ├── gameData.ts     # Engine settings schemas (BO6, Apex, Fortnite, Valorant, CS2)
+│   │   ├── sanitize.ts     # Input sanitization
+│   │   ├── storage.ts      # Local database layers, version history snapshots, mock seeding
+│   │   ├── supabase.ts     # Supabase backend client
+│   │   └── index.ts        # Lib barrel export
+│   ├── pages/              # Routed feature views
+│   │   ├── admin/          # AdminPanel (broadcast patch alerts)
+│   │   ├── calculators/    # SensitivityCalculator (DPI, eDPI, cm/360° conversion)
+│   │   ├── community/      # Community Signal Base (discover & following feeds)
+│   │   ├── compare/        # CompareProfiles (side-by-side delta matrix)
+│   │   ├── dashboard/      # Command Center dashboard (featured loadout, bento stats)
+│   │   ├── profiles/       # Profiles locker, EditProfile wizard, ProfileView, Templates
+│   │   ├── user/           # UserProfile operator settings
+│   │   └── index.ts        # Pages barrel export
+│   ├── styles/             # Global CSS, design tokens, and typography
+│   │   └── index.css
+│   ├── types/              # Domain TypeScript interfaces & models
+│   │   └── index.ts
+│   ├── App.tsx             # Root router & layout integration
+│   ├── main.tsx            # Bootstrap entry point
 │   └── vite-env.d.ts
-├── package.json             # NPM dependencies & task script commands
-├── tsconfig.json            # TypeScript compile configurations
-├── vite.config.ts           # Vite development and compile guidelines
-└── tailwind.config.js       # Grid overlays, keyframes, and custom color mappings
+├── eslint.config.js
+├── index.html
+├── package.json
+├── postcss.config.js
+├── README.md
+├── tailwind.config.js
+├── tsconfig.json
+└── vite.config.ts
 ```
 
 ---
 
 ## 💾 Storage Database Schema
 
-The database stores user models, custom presets, template structures, and alerts using the `localStorage` API under six distinct keys:
+The client-side database stores user models, custom presets, template structures, and alerts using the `localStorage` API under six distinct keys:
 
-1.  **`gs_user`**: Holds the current User callsign name, short bio, and following UID arrays.
-2.  **`gs_profiles`**: Holds the `GameProfile` configurations array.
-3.  **`gs_templates`**: Holds the `SettingsTemplate` list for creating base presets.
-4.  **`gs_announcements`**: Stores game patch logs and balance notifications.
-5.  **`gs_notifications`**: Stores real-time in-app alerts and notifications.
-6.  **`gs_history`**: Captures snapshot entries (`ProfileHistory`) representing state logs before updates are written.
+1. **`gs_user`**: Holds the current Operator callsign name, bio, and following UID arrays.
+2. **`gs_profiles`**: Holds the `GameProfile` configurations array.
+3. **`gs_templates`**: Holds the `SettingsTemplate` list for creating base presets.
+4. **`gs_announcements`**: Stores game patch logs and balance notifications.
+5. **`gs_notifications`**: Stores real-time in-app alerts and notifications.
+6. **`gs_history`**: Captures snapshot entries (`ProfileHistory`) representing state logs before updates are written.
 
 ---
 

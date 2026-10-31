@@ -13,7 +13,7 @@ interface State {
 export class ErrorBoundary extends Component<Props, State> {
   public state: State = {
     hasError: false,
-    error: null
+    error: null,
   };
 
   public static getDerivedStateFromError(error: Error): State {
@@ -32,28 +32,28 @@ export class ErrorBoundary extends Component<Props, State> {
   public render() {
     if (this.state.hasError) {
       return (
-        <div className="min-h-screen bg-[#0B0F19] text-white flex items-center justify-center p-6">
-          <div className="max-w-md w-full cyber-panel p-8 text-center border-red-500/40 shadow-red-500/10">
-            <div className="flex justify-center mb-6">
-              <div className="p-4 rounded-full bg-red-500/10 text-red-500 border border-red-500/20 animate-pulse">
-                <AlertOctagon size={48} />
+        <div className="min-h-screen bg-[#0C0B0E] text-[#F7F6F9] flex items-center justify-center p-6">
+          <div className="max-w-md w-full gs-card p-8 text-center border-rose-500/30">
+            <div className="flex justify-center mb-5">
+              <div className="w-16 h-16 rounded-2xl bg-rose-500/15 text-rose-400 border border-rose-500/25 flex items-center justify-center">
+                <AlertOctagon size={34} />
               </div>
             </div>
-            <h1 className="text-2xl font-bold uppercase tracking-wider text-red-500 mb-2 font-mono">
-              SYSTEM EXCEPTION
+            <h1 className="text-2xl font-bold text-[#F7F6F9] mb-2">
+              Unexpected Application Error
             </h1>
-            <p className="text-gray-400 text-sm mb-6">
-              GearSync encountered an unrecoverable rendering boundary error. 
+            <p className="text-[#A6A2B5] text-sm mb-6">
+              GearSync encountered a rendering error. Your saved configurations in local storage remain intact.
             </p>
-            <div className="bg-black/35 rounded-lg p-4 mb-6 text-left border border-slate-800 text-xs font-mono overflow-auto max-h-32 text-red-400">
+            <div className="bg-[#121117] rounded-2xl p-4 mb-6 text-left border border-white/10 text-xs font-mono overflow-auto max-h-32 text-rose-400">
               {this.state.error?.message || 'Unknown runtime error'}
             </div>
             <button
               onClick={this.handleReset}
-              className="w-full py-3 px-4 bg-red-600 hover:bg-red-500 text-white font-semibold rounded-lg flex items-center justify-center gap-2 transition-all shadow-lg shadow-red-600/20"
+              className="w-full py-3 px-5 gs-btn-primary text-sm flex items-center justify-center gap-2"
             >
-              <RefreshCw size={18} />
-              Reset Terminal
+              <RefreshCw size={16} />
+              Reload Application
             </button>
           </div>
         </div>

@@ -4,29 +4,18 @@ import { VitePWA } from 'vite-plugin-pwa'
 
 // https://vite.dev/config/
 export default defineConfig({
+  server: {
+    port: 5173,
+    host: '127.0.0.1',
+    watch: {
+      ignored: ['**/.git/**', '**/.agents/**', '**/dist/**']
+    }
+  },
+  optimizeDeps: {
+    noDiscovery: true,
+    include: []
+  },
   plugins: [
-    react(),
-    VitePWA({
-      registerType: 'autoUpdate',
-      injectRegister: 'inline',
-      includeAssets: ['favicon.svg', 'fonts/*.woff2'],
-      manifest: {
-        name: 'GearSync Config Locker',
-        short_name: 'GearSync',
-        description: 'Sync, calculate, and manage gaming settings across platforms.',
-        theme_color: '#0B0D13',
-        background_color: '#0B0D13',
-        display: 'standalone',
-        orientation: 'portrait',
-        icons: [
-          {
-            src: 'favicon.svg',
-            sizes: '192x192 512x512',
-            type: 'image/svg+xml',
-            purpose: 'any maskable'
-          }
-        ]
-      }
-    })
+    react()
   ],
 })

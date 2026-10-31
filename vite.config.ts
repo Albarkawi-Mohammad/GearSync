@@ -19,7 +19,17 @@ export default defineConfig({
       'react-dom/client',
       'react/jsx-runtime',
       'react/jsx-dev-runtime',
+      'react-router',
+      'react-router-dom',
+      'cookie',
+      'set-cookie-parser',
       'react-is',
+      'use-sync-external-store',
+      'use-sync-external-store/with-selector',
+      'use-sync-external-store/shim/with-selector',
+      'react-redux',
+      'recharts',
+      'lucide-react',
       'canvas-confetti'
     ]
   },

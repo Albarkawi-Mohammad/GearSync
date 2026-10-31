@@ -19,7 +19,7 @@ import {
 } from '../../lib/storage';
 import { SUPPORTED_GAMES } from '../../lib/gameData';
 import { parseGameConfig } from '../../lib/configCompiler';
-import { ProfileCard, getGameTheme, useToast } from '../../components/ui';
+import { ProfileCard, getGameTheme, useToast, AnimatedNumber } from '../../components/ui';
 
 export const Profiles: React.FC = () => {
   const [profiles, setProfiles] = useState<GameProfile[]>([]);
@@ -277,7 +277,9 @@ export const Profiles: React.FC = () => {
               <div>
                   <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-[#25232E] border border-white/[0.06] text-xs font-medium text-[#A6A2B5] mb-2.5">
                     <Sliders size={12} className="text-[#FF5E36]" />
-                    <span>{profiles.length} Total Configurations Saved</span>
+                    <span>
+                      <AnimatedNumber value={profiles.length} /> Total Configurations Saved
+                    </span>
                   </div>
                   <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#F7F6F9]">
                     Configuration Locker

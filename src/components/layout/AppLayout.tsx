@@ -19,6 +19,7 @@ import {
   Plus,
   Sparkles,
   ArrowUpRight,
+  RotateCw,
 } from 'lucide-react';
 import {
   getNotifications,
@@ -28,7 +29,8 @@ import {
   getCurrentUser,
   getProfiles,
 } from '../../lib/storage';
-import { ToastProvider } from '../ui';
+import { useToast } from '../ui';
+import { useRefresh } from '../../context/RefreshContext';
 
 interface AppLayoutProps {
   children: React.ReactNode;
@@ -37,6 +39,13 @@ interface AppLayoutProps {
 export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   const location = useLocation();
   const navigate = useNavigate();
+  const { isRefreshing, triggerRefresh } = useRefresh();
+  const { showToast } = useToast();
+
+  const handleSyncClick = () => {
+    triggerRefresh();
+    showToast('Vault Synchronized', 'Live telemetry and calculations refreshed.');
+  };
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [notificationsOpen, setNotificationsOpen] = useState(false);
   const [notifications, setNotifications] = useState<Notification[]>([]);
@@ -188,8 +197,7 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
   }, [commandPaletteOpen, filteredPaletteItems, selectedIndex]);
 
   return (
-    <ToastProvider>
-      <div className="min-h-screen bg-[#0C0B0E] text-[#F7F6F9] flex flex-col md:flex-row md:p-3.5 lg:p-5 gap-3.5 lg:gap-5 relative selection:bg-[#FF5E36]/30">
+    <div className="min-h-screen bg-[#0C0B0E] text-[#F7F6F9] flex flex-col md:flex-row md:p-3.5 lg:p-5 gap-3.5 lg:gap-5 relative selection:bg-[#FF5E36]/30">
         {/* Ambient warm background glow */}
         <div className="fixed -top-40 left-1/4 w-[500px] h-[500px] rounded-full bg-[#FF5E36]/[0.04] blur-[130px] pointer-events-none print:hidden" />
         <div className="fixed bottom-0 right-10 w-[420px] h-[420px] rounded-full bg-indigo-500/[0.03] blur-[120px] pointer-events-none print:hidden" />
@@ -304,6 +312,21 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
 
           <div className="flex items-center gap-2">
             <button
+              type="button"
+              onClick={handleSyncClick}
+              disabled={isRefreshing}
+              className="w-9 h-9 rounded-full bg-[#25232E] border border-white/[0.07] flex items-center justify-center text-[#A6A2B5] hover:text-white transition-all active:scale-95"
+              title="Sync Vault & Refresh Telemetry"
+              aria-label="Sync Vault & Refresh Telemetry"
+            >
+              <RotateCw
+                size={15}
+                className={`text-[#FF5E36] transition-transform duration-700 ${
+                  isRefreshing ? 'animate-spin' : ''
+                }`}
+              />
+            </button>
+            <button
               onClick={() => setCommandPaletteOpen(true)}
               className="w-9 h-9 rounded-full bg-[#25232E] border border-white/[0.07] flex items-center justify-center text-[#A6A2B5] hover:text-white"
               aria-label="Open quick search"
@@ -358,6 +381,26 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
                 <kbd className="px-2 py-0.5 rounded-full bg-[#25232E] text-[10px] font-semibold text-[#A6A2B5] border border-white/[0.06]">
                   ⌘K
                 </kbd>
+              </button>
+
+              {/* Sync Vault & Refresh Telemetry Button */}
+              <button
+                type="button"
+                onClick={handleSyncClick}
+                disabled={isRefreshing}
+                className="flex items-center gap-2 px-3.5 py-2 rounded-full bg-[#121117] hover:bg-[#1D1B24] border border-white/[0.07] hover:border-white/15 text-xs text-[#A6A2B5] hover:text-[#F7F6F9] transition-all active:scale-95 group"
+                title="Sync Vault & Refresh Telemetry"
+                aria-label="Sync Vault & Refresh Telemetry"
+              >
+                <RotateCw
+                  size={14}
+                  className={`text-[#FF5E36] transition-transform duration-700 ${
+                    isRefreshing ? 'animate-spin' : 'group-hover:rotate-180'
+                  }`}
+                />
+                <span className="font-semibold text-xs">
+                  {isRefreshing ? 'Syncing...' : 'Sync'}
+                </span>
               </button>
 
               {/* Quick Create CTA */}
@@ -646,6 +689,5 @@ export const AppLayout: React.FC<AppLayoutProps> = ({ children }) => {
           </div>
         )}
       </div>
-    </ToastProvider>
   );
 };

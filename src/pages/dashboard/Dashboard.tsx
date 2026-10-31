@@ -24,6 +24,7 @@ import {
   Globe,
   CheckCircle2,
   Flame,
+  RotateCw,
 } from 'lucide-react';
 import {
   getProfiles,
@@ -42,7 +43,9 @@ import {
   InputBadge,
   getGameTheme,
   useToast,
+  AnimatedNumber,
 } from '../../components/ui';
+import { useRefresh } from '../../context/RefreshContext';
 
 export const Dashboard: React.FC = () => {
   const [profiles, setProfiles] = useState<GameProfile[]>([]);
@@ -50,6 +53,7 @@ export const Dashboard: React.FC = () => {
   const [announcements, setAnnouncements] = useState<any[]>([]);
   const [currentUser, setCurrentUser] = useState(getCurrentUser());
   const { showToast } = useToast();
+  const { isRefreshing, triggerRefresh } = useRefresh();
 
   const loadData = () => {
     const all = getProfiles();
@@ -111,10 +115,23 @@ export const Dashboard: React.FC = () => {
       {/* WELCOME & QUICK COMMAND BAR */}
       <div className="flex flex-col lg:flex-row lg:items-end justify-between gap-5">
         <div>
-          <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-500/20 text-emerald-300 text-xs font-medium mb-3">
-            <CheckCircle2 size={13} />
-            <span>Sync Pipeline Online • Local Vault Encrypted</span>
-          </div>
+          <button
+            type="button"
+            onClick={() => {
+              triggerRefresh();
+              showToast('Vault Synchronized', 'Live telemetry and calculations refreshed.');
+            }}
+            className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 hover:bg-emerald-500/20 border border-emerald-500/20 text-emerald-300 text-xs font-medium mb-3 transition-all active:scale-95 group cursor-pointer"
+            title="Click to refresh telemetry & calibrate metrics"
+          >
+            <RotateCw
+              size={13}
+              className={`text-emerald-400 transition-transform duration-700 ${
+                isRefreshing ? 'animate-spin' : 'group-hover:rotate-180'
+              }`}
+            />
+            <span>{isRefreshing ? 'Syncing Pipeline...' : 'Sync Pipeline Online • Click to Refresh'}</span>
+          </button>
           <h1 className="text-3xl sm:text-4xl font-extrabold tracking-tight text-[#F7F6F9]">
             Welcome back, {currentUser.username}
           </h1>
@@ -202,7 +219,7 @@ export const Dashboard: React.FC = () => {
               </div>
               <div className="mt-3 flex items-baseline justify-between">
                 <span className="text-3xl font-extrabold text-[#F7F6F9] tabular-nums">
-                  {userProfiles.length}
+                  <AnimatedNumber value={userProfiles.length} delay={0} />
                 </span>
                 <span className="text-xs text-[#6E6A7E]">In locker</span>
               </div>
@@ -220,7 +237,7 @@ export const Dashboard: React.FC = () => {
               </div>
               <div className="mt-3 flex items-baseline justify-between">
                 <span className="text-3xl font-extrabold text-[#F7F6F9] tabular-nums">
-                  {templatesCount}
+                  <AnimatedNumber value={templatesCount} delay={50} />
                 </span>
                 <span className="text-xs text-[#6E6A7E]">Presets</span>
               </div>
@@ -238,7 +255,7 @@ export const Dashboard: React.FC = () => {
               </div>
               <div className="mt-3 flex items-baseline justify-between">
                 <span className="text-3xl font-extrabold text-[#F7F6F9] tabular-nums">
-                  {publicProfilesCount}
+                  <AnimatedNumber value={publicProfilesCount} delay={100} />
                 </span>
                 <span className="text-xs text-emerald-400">Live</span>
               </div>
@@ -256,7 +273,7 @@ export const Dashboard: React.FC = () => {
               </div>
               <div className="mt-3 flex items-baseline justify-between">
                 <span className="text-3xl font-extrabold text-[#F7F6F9] tabular-nums">
-                  {totalUserCopies}
+                  <AnimatedNumber value={totalUserCopies} delay={150} />
                 </span>
                 <span className="text-xs text-amber-400">Total</span>
               </div>

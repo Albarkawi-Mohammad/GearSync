@@ -22,6 +22,7 @@ import {
   PlatformBadge,
   InputBadge,
   getGameTheme,
+  AnimatedNumber,
 } from '../../components/ui';
 
 export const CompareProfiles: React.FC = () => {
@@ -258,13 +259,24 @@ export const CompareProfiles: React.FC = () => {
           <div className="gs-card p-4 sm:p-5 flex flex-col md:flex-row md:items-center justify-between gap-4">
             <div className="flex flex-wrap items-center gap-3">
               <div className="px-3.5 py-1.5 rounded-full bg-[#16151C] border border-white/[0.06] text-xs font-semibold text-[#F7F6F9] tabular-nums">
-                {fields.length} Total Settings
+                <AnimatedNumber value={fields.length} /> Total Settings
               </div>
               <div className="px-3.5 py-1.5 rounded-full bg-amber-500/15 border border-amber-500/25 text-xs font-semibold text-amber-300 tabular-nums">
-                {totalDifferences} {totalDifferences === 1 ? 'Difference' : 'Differences'}
+                <AnimatedNumber value={totalDifferences} /> {totalDifferences === 1 ? 'Difference' : 'Differences'}
               </div>
               <div className="px-3.5 py-1.5 rounded-full bg-emerald-500/15 border border-emerald-500/25 text-xs font-semibold text-emerald-300 tabular-nums">
-                {fields.length - totalDifferences} Identical
+                <AnimatedNumber value={fields.length - totalDifferences} /> Identical
+              </div>
+              <div className="px-3.5 py-1.5 rounded-full bg-[#FF5E36]/15 border border-[#FF5E36]/25 text-xs font-bold text-[#FF5E36] tabular-nums">
+                Parity:{' '}
+                <AnimatedNumber
+                  value={
+                    fields.length > 0
+                      ? Math.round(((fields.length - totalDifferences) / fields.length) * 100)
+                      : 100
+                  }
+                  suffix="%"
+                />
               </div>
             </div>
 

@@ -10,6 +10,7 @@ import {
   getKeyMetricsForProfile,
   getGameTheme,
 } from './GameArtwork';
+import { AnimatedNumber } from './AnimatedNumber';
 
 interface ProfileCardProps {
   profile: GameProfile;
@@ -142,7 +143,7 @@ export const ProfileCard: React.FC<ProfileCardProps> = ({
         </span>
         <span className="flex items-center gap-1 tabular-nums">
           <Copy size={11} />
-          {profile.copiesCount} {profile.copiesCount === 1 ? 'clone' : 'clones'}
+          <AnimatedNumber value={profile.copiesCount} /> {profile.copiesCount === 1 ? 'clone' : 'clones'}
         </span>
       </div>
     </Link>
@@ -183,7 +184,8 @@ export const FeaturedProfileCard: React.FC<FeaturedProfileCardProps> = ({
         <div className="mt-8 space-y-5">
           <div>
             <p className="text-xs font-medium text-[#A6A2B5] mb-1">
-              {theme.studio} • {theme.engine} • {Object.keys(profile.settings || {}).length} Calibrated Parameters
+              {theme.studio} • {theme.engine} •{' '}
+              <AnimatedNumber value={Object.keys(profile.settings || {}).length} /> Calibrated Parameters
             </p>
             <h2 className="text-2xl sm:text-4xl font-extrabold text-[#F7F6F9] tracking-tight leading-tight">
               {profile.name}
@@ -192,17 +194,28 @@ export const FeaturedProfileCard: React.FC<FeaturedProfileCardProps> = ({
 
           {/* Live Telemetry Pills */}
           <div className="grid grid-cols-3 gap-3 max-w-lg">
-            {metrics.map((m, idx) => (
-              <div
-                key={idx}
-                className="p-3 rounded-2xl bg-[#121117]/80 backdrop-blur-md border border-white/10"
-              >
-                <span className="block text-[11px] text-[#A6A2B5]">{m.label}</span>
-                <span className="block text-sm sm:text-base font-bold text-[#F7F6F9] tabular-nums mt-0.5 truncate">
-                  {m.value}
-                </span>
-              </div>
-            ))}
+            {metrics.map((m, idx) => {
+              const strVal = String(m.value || '');
+              const numMatch = strVal.match(/^-?\d+(\.\d+)?/);
+              const numVal = numMatch ? parseFloat(numMatch[0]) : null;
+              const suffix = strVal.endsWith('°') ? '°' : '';
+
+              return (
+                <div
+                  key={idx}
+                  className="p-3 rounded-2xl bg-[#121117]/80 backdrop-blur-md border border-white/10"
+                >
+                  <span className="block text-[11px] text-[#A6A2B5]">{m.label}</span>
+                  <span className="block text-sm sm:text-base font-bold text-[#F7F6F9] tabular-nums mt-0.5 truncate">
+                    {numVal !== null && !isNaN(numVal) ? (
+                      <AnimatedNumber value={numVal} suffix={suffix} delay={idx * 40} />
+                    ) : (
+                      m.value
+                    )}
+                  </span>
+                </div>
+              );
+            })}
           </div>
 
           {/* Action Bar */}

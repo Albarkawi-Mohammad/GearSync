@@ -9,7 +9,8 @@ import {
   Info,
 } from 'lucide-react';
 import { SUPPORTED_GAMES, SENSITIVITY_FACTORS } from '../../lib/gameData';
-import { GameArtwork, GamePill, getGameTheme, useToast } from '../../components/ui';
+import { GameArtwork, GamePill, getGameTheme, useToast, AnimatedNumber } from '../../components/ui';
+import { useRefresh } from '../../context/RefreshContext';
 
 export const SensitivityCalculator: React.FC = () => {
   const [calcMode, setCalcMode] = useState<'sens_to_sens' | 'distance_to_sens'>('sens_to_sens');
@@ -245,7 +246,7 @@ export const SensitivityCalculator: React.FC = () => {
                       Source Sensitivity
                     </label>
                     <span className="text-xs text-[#6E6A7E] tabular-nums">
-                      eDPI: <strong className="text-[#F7F6F9]">{sourceEdpi}</strong>
+                      eDPI: <strong className="text-[#F7F6F9]"><AnimatedNumber value={sourceEdpi} decimals={0} /></strong>
                     </span>
                   </div>
 
@@ -279,13 +280,14 @@ export const SensitivityCalculator: React.FC = () => {
               <div>
                 <span className="block text-[11px] text-[#6E6A7E]">Source eDPI</span>
                 <span className="text-base font-bold text-[#F7F6F9] tabular-nums">
-                  {sourceEdpi}
+                  <AnimatedNumber value={sourceEdpi} decimals={0} />
                 </span>
               </div>
               <div>
                 <span className="block text-[11px] text-[#6E6A7E]">360° Distance</span>
                 <span className="text-base font-bold text-[#F7F6F9] tabular-nums">
-                  {cm360Src} cm <span className="text-xs text-[#6E6A7E]">({in360Src}")</span>
+                  <AnimatedNumber value={cm360Src} decimals={2} suffix=" cm" />{' '}
+                  <span className="text-xs text-[#6E6A7E]">(<AnimatedNumber value={in360Src} decimals={2} suffix='"' />)</span>
                 </span>
               </div>
             </div>
@@ -308,7 +310,7 @@ export const SensitivityCalculator: React.FC = () => {
             <div className="text-center">
               <span className="block text-[11px] font-semibold text-[#A6A2B5]">1:1 Physical</span>
               <span className="block text-xs font-bold text-[#FF5E36] tabular-nums">
-                {cm360Src} cm / 360°
+                <AnimatedNumber value={cm360Src} decimals={2} suffix=" cm / 360°" />
               </span>
             </div>
           </div>
@@ -354,7 +356,7 @@ export const SensitivityCalculator: React.FC = () => {
                       Recommended In-Game Sensitivity
                     </span>
                     <span className="block text-4xl sm:text-5xl font-extrabold text-[#FF5E36] tabular-nums tracking-tight mt-1">
-                      {targetSens}
+                      <AnimatedNumber value={targetSens} decimals={4} />
                     </span>
                   </div>
                   <button
@@ -373,13 +375,13 @@ export const SensitivityCalculator: React.FC = () => {
               <div>
                 <span className="block text-[11px] text-[#6E6A7E]">Target eDPI</span>
                 <span className="text-base font-bold text-[#F7F6F9] tabular-nums">
-                  {targetEdpi}
+                  <AnimatedNumber value={targetEdpi} decimals={0} />
                 </span>
               </div>
               <div>
                 <span className="block text-[11px] text-[#6E6A7E]">Matched 360° Turn</span>
                 <span className="text-base font-bold text-emerald-400 tabular-nums">
-                  {cm360Target} cm
+                  <AnimatedNumber value={cm360Target} decimals={2} suffix=" cm" />
                 </span>
               </div>
             </div>
@@ -489,7 +491,7 @@ export const SensitivityCalculator: React.FC = () => {
                 <div>
                   <span className="block text-xs text-[#6E6A7E]">Set In-Game Sensitivity To</span>
                   <span className="block text-4xl sm:text-5xl font-extrabold text-[#FF5E36] tabular-nums mt-1">
-                    {distResultSens}
+                    <AnimatedNumber value={distResultSens} decimals={4} />
                   </span>
                 </div>
                 <button
@@ -505,13 +507,13 @@ export const SensitivityCalculator: React.FC = () => {
                 <div className="p-3.5 rounded-2xl bg-[#16151C] border border-white/[0.05]">
                   <span className="block text-[11px] text-[#6E6A7E]">Calculated eDPI</span>
                   <span className="block text-base font-bold text-[#F7F6F9] tabular-nums mt-0.5">
-                    {Math.round(distResultSens * dpi)}
+                    <AnimatedNumber value={Math.round(distResultSens * dpi)} decimals={0} />
                   </span>
                 </div>
                 <div className="p-3.5 rounded-2xl bg-[#16151C] border border-white/[0.05]">
                   <span className="block text-[11px] text-[#6E6A7E]">Physical Distance</span>
                   <span className="block text-base font-bold text-emerald-400 tabular-nums mt-0.5">
-                    {targetDistance} cm / 360°
+                    <AnimatedNumber value={targetDistance} decimals={1} suffix=" cm / 360°" />
                   </span>
                 </div>
               </div>
@@ -569,10 +571,10 @@ export const SensitivityCalculator: React.FC = () => {
 
               <div>
                 <span className="block text-2xl font-extrabold text-[#F7F6F9] tabular-nums">
-                  {sens}
+                  <AnimatedNumber value={sens} decimals={4} />
                 </span>
                 <span className="block text-[11px] text-[#6E6A7E] tabular-nums mt-0.5">
-                  eDPI: {edpi}
+                  eDPI: <AnimatedNumber value={edpi} decimals={0} />
                 </span>
               </div>
             </div>

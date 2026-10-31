@@ -8,4 +8,5 @@ export {
   getKeyMetricsForProfile,
 } from './GameArtwork';
 export { ProfileCard, FeaturedProfileCard } from './ProfileCard';
+export { AnimatedNumber, type AnimatedNumberProps } from './AnimatedNumber';
 

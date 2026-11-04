@@ -58,3 +58,4 @@ export const useRefresh = (): RefreshContextType => {
   }
   return context;
 };
+

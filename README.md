@@ -12,6 +12,8 @@ GearSync is a high-performance gaming settings companion and configuration manag
 * **Companion Checklist Mode**: Mobile-optimized stepper designed to prop up next to your monitor or TV for verifying and applying settings step-by-step.
 * **Automated Version History**: Automatic snapshot backups captured prior to any modifications, with diff inspections and one-click rollback.
 * **Cross-Engine Sensitivity & DPI Translator**: Converts sensitivity, calculates eDPI, and derives physical rotation distance (cm/360° and in/360°) across all supported game engines, including reverse distance-to-sens mode.
+* **Animated Telemetry & Count-Up Engine**: Physics-based ease-out number count-up animations (`AnimatedNumber`) across stats matrices, sensitivity conversions, and locker metrics with zero layout shift.
+* **Global Vault Sync & Telemetry Refresh**: Interactive topbar sync action with spinning feedback to recalibrate live metrics and trigger telemetry roll animations on demand.
 * **Profile Comparison Matrix**: Side-by-side comparison engine highlighting parameter discrepancies and rendering percentage delta shift charts.
 * **Signal Base Community Feed**: Discover, follow creators, preview settings, and clone public community or pro loadouts directly into your personal locker.
 * **Guided Config Compiler**: Compiles profiles into native game configuration formats (`.cfg`, `.ini`, `autoexec`) with one-click download, clipboard copy, and printable PDF reference sheets.
